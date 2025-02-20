@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stripe Payment</title>
+    <script src="https://js.stripe.com/v3/"></script>
+</head>
+<body>
+    <h2>Stripe Payment Demo</h2>
+    <form id="payment-form">
+        <div id="card-element"><!-- Stripe injects elements here --></div>
+        <button id="submit">Pay</button>
+    </form>
+    <p id="message"></p>
+
+    <script>
+        const stripe = Stripe("pk_test_51QtuMdAgzzD3hXXqA5Oey5csrZM5oRVLpf3Eo09zgMdCsCRiQI9c8HrFoiRS9TLjgvOy1CWEnRYBbIerSytw8r8200g07HliUu"); // Replace with your Stripe publishable key
+        let clientSecret;
+
+        async function initialize() {
+            const response = await fetch("http://localhost:3000/create-payment", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ amount: 1000 }) // $10.00
+            });
+
+            const data = await response.json();
+            clientSecret = data.clientSecret;
+
+            const elements = stripe.elements();
+            const cardElement = elements.create("card");
+            cardElement.mount("#card-element");
+
+            const form = document.getElementById("payment-form");
+            form.addEventListener("submit", async (event) => {
+                event.preventDefault();
+                const { paymentIntent, error } = await stripe.confirmCardPayment(clientSecret, {
+                    payment_method: { card: cardElement }
+                });
+
+                if (error) {
+                    document.getElementById("message").innerText = error.message;
+                } else {
+                    document.getElementById("message").innerText = "Payment Successful!";
+                }
+            });
+        }
+
+        initialize();
+    </script>
+</body>
+</html>
