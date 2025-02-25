@@ -1,0 +1,46 @@
+body {
+    margin-top:200px;
+    padding: 20px;
+    background-color: rgb(251, 247, 247);
+
+}
+
+h2 {
+    text-align: center;
+    color: black;
+}
+
+#payment-form {
+    max-width: 400px;
+    margin: 0 auto;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+#card-element {
+    margin-bottom: 20px;
+}
+
+button {
+    width: 100%;
+    padding: 10px;
+    background-color: #2bae43;
+    color: white;
+    border-radius: 5px;
+    border: none;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+#messageB {
+    text-align: center;
+    margin-top: 10px;
+    color: #d9534f;
+}
+
+#messageG {
+    text-align: center;
+    margin-top: 10px;
+    color: #68d94f;
+}
